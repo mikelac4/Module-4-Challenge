@@ -12,7 +12,7 @@ var submitBtn = document.getElementById('submit');
 var startBtn = document.getElementById('start');
 var initialsEl = document.getElementById('initials');
 var feedbackEl = document.getElementById('feedback');
-
+var startScr = document.getElementById('start-screen');
 // sound effects
 var sfxRight = new Audio('assets/sfx/correct.wav');
 var sfxWrong = new Audio('assets/sfx/incorrect.wav');
@@ -20,11 +20,11 @@ var sfxWrong = new Audio('assets/sfx/incorrect.wav');
 
 function startQuiz() {
     // hide start screen
-
+    startScr.classList.add("hide");
     // un-hide questions section
-
+    questionsEl.classList.remove('hide')
     //start timer (high)
-
+    startTimer();
     //show starting time (high)
 
     getQuestion();
@@ -44,15 +44,19 @@ function getQuestion() { //this function is going to get the data from the quest
     // create a for loop that creates the choice elements
     for (var i = 0; i < currentQuestion.choices.length; i++) {
         // create new button for each choice
+        var btn = document.createElement("button")
         //.createElement
         //.setAttribute (set a class="choice")
+        btn.classList.add("choice");
         //.textContent
+        btn.textContent = currentQuestion.choices[i]
         //.appendChild
+        choicesEl.append(btn)
     }
 }
 
 function questionClick(event) {
-    var buttonEl = event.target;
+    var buttonEl = event.target; 
 
     // if the clicked element is not a choice button, do nothing.
     if (!buttonEl.matches('.choice')) {
@@ -60,15 +64,18 @@ function questionClick(event) {
     }
 
     // check if user guessed right or wrong
-    if (true) { //replace true with a conditional statement that checks if the clicked choice button's value is the same as the questions[currentQuestionIndex]'s answer
-        //incorrect answer scenario
-
-        // penalize time
-        // display new time on page
-    } else {
+    if (buttonEl.textContent === questions[currentQuestionIndex].answer) { //replace true with a conditional statement that checks if the clicked choice button's value is the same as the questions[currentQuestionIndex]'s answer
         //correct scenario
 
-        // move to next question
+        time+=5;
+
+        
+    } else {
+        //incorrect answer scenario
+        time-=5;
+        // penalize time
+        // display new time on page
+        
     }
     // flash right/wrong feedback on page
 
@@ -110,6 +117,10 @@ function clockTick() {
     }
 }
 
+function startTimer() {
+    timerId = setInterval(clockTick, 1000)
+}
+
 
 function saveHighscore() {
     // get value of input box
@@ -119,13 +130,18 @@ function saveHighscore() {
     if (initials !== '') {
 
         //JSON.parse
+    var highscores = JSON.parse(window.localStorage.getItem('highscores')) || [];
         // get saved scores from localstorage (highscores), or if not any, set to empty array
         
 
         // format new score object for current user
-        
-
+        var tempObject = {
+            initials:initials, 
+            score:time
+        }
+        highscores.push(tempObject)
         // save to localstorage
+        localStorage.setItem("highscores", JSON.stringify(highscores))
         
 
         // redirect to next page

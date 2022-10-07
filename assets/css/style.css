@@ -1,0 +1,43 @@
+
+
+.scores {
+    display: flex;
+    justify-content: flex-start;
+
+}
+
+.timer {
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.p1 {
+    font-size: 20px;
+    
+    
+}
+
+.b1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+.hide {
+    display: none;
+}
+
+
